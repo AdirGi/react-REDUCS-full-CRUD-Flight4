@@ -1,7 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFlightArr1, getFlightAsync, addFlightAsync, updateFlightAsync, deleteFlightAsync } from './flightSlice';
+import CardFlight from '../components/CardFlight';
+import { selectFlightArr1, getFlightAsync, addFlightAsync, updateFlightAsync, deleteFlightAsync } from '../features/flight/flightSlice';
 
 
 const FlightsPage = () => {
@@ -20,7 +21,6 @@ const FlightsPage = () => {
 
   return (
     <div>FlightsPage
-
       <div style={{ backgroundColor: "cyan" }}>
         <h1>admin area</h1>
         companyName: <input onChange={(e) => setCompanyName(e.target.value)}></input>
@@ -33,20 +33,23 @@ const FlightsPage = () => {
       </div>
 
       <h1>ELALA-AIR</h1>
+
       {/* <button onClick={() => dispatch(getFlightAsync())}>get flight</button> //we use useEffect insted a button */}
       flightArr1-length: {flightArr1.length}
       {/* // using filter FOR SEARCH: */}
+
       {flightArr1.length > 0 && flightArr1.filter((f) => (f.destination.includes(search) && f.companyName.includes(searchCompany))).map((item, i) =>
         // {flightArr1.length > 0 && flightArr1.map((item, i) =>
-        <div
-          key={i}> id: |{item.id}| comp: |{item.companyName}| des: |{item.destination}|   <button onClick={() => dispatch(updateFlightAsync(
+        <div key={i}>
+          <CardFlight FlightCardProps={item}/> 
+        <button onClick={() => dispatch(updateFlightAsync(
             {
               id: item.id,
               companyName: companyName,
               destination: destination
 
-            }
-          ))}>Update Flight</button>
+            })
+            )}>Update Flight</button>
 
           <button onClick={() =>  dispatch(deleteFlightAsync(item.id))}>delete Flight</button>
 
